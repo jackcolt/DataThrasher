@@ -1,3 +1,5 @@
+package test
+
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FunSuite

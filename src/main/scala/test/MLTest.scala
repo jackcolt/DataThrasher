@@ -1,3 +1,5 @@
+package test
+
 
 import org.apache.spark.ml.feature.{RegexTokenizer, Tokenizer}
 import org.apache.spark.sql.SparkSession
