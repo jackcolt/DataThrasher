@@ -1,7 +1,7 @@
 {"type":"struct",
   "fields":[
-    {"name":"transaction_id","type":"string","nullable":true,"metadata":{}},
-    {"name":"sale_price","type":"integer","nullable":true,"metadata":{}},
+    {"name":"transaction_id","type":"string","nullable":false,"metadata":{}},
+    {"name":"sale_price","type":"integer","nullable":false,"metadata":{}},
     {"name":"transfer_date","type":"string","nullable":true,"metadata":{}},
     {"name":"post_code","type":"string","nullable":true,"metadata":{}},
     {"name":"property_type","type":"string","nullable":true,"metadata":{}},
@@ -15,4 +15,5 @@
     {"name":"district","type":"string","nullable":true,"metadata":{}},
     {"name":"county","type":"string","nullable":true,"metadata":{}},
     {"name":"category_type","type":"string","nullable":true,"metadata":{}},
-    {"name":"record_status","type":"string","nullable":true,"metadata":{}}]}
+    {"name":"record_status","type":"string","nullable":true,"metadata":{}}
+  ]}

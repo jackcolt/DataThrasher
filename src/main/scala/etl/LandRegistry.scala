@@ -63,5 +63,11 @@ class LandRegistry extends FunSuite{
     val head2 = parsed2.take(20)
     head2.foreach(println)
 
+    import org.apache.spark.sql.functions._
+
+    parsed2.groupBy("age").count.show()
+    parsed2.groupBy("transfer_date").count.orderBy(desc("count")).show(100)
+    parsed2.groupBy("sale_price").count.orderBy(desc("sale_price")).show(100)
+
   }
 }
