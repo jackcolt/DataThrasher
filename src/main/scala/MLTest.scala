@@ -4,6 +4,8 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.scalatest._
 
+//Tokenizer test for MLLib.
+
   class MLTest extends FunSuite {
 
     test ("mltest") {
