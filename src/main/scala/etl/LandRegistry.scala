@@ -2,7 +2,9 @@ package etl
 
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FunSuite
+import org.apache.spark.sql.types.{DataType, StructType}
 
+import scala.io.Source
 class LandRegistry extends FunSuite{
 
   /**
@@ -43,32 +45,23 @@ class LandRegistry extends FunSuite{
     val spark = SparkSession.builder().master("local").appName("TokenTest").getOrCreate()
 
     val fileName = "/Users/johnpoulin/IdeaProjects/DataThrasher/data/pp-monthly-update-new-version_9_18.csv"
+    val ppSchemaFileName = "/Users/johnpoulin/IdeaProjects/DataThrasher/src/main/scala/schema/price_paid.json"
+
     val sc = spark.sparkContext
     val land_rdd = sc.textFile(fileName)
     land_rdd.first()
     val head = land_rdd.take(10)
     head.foreach(println)
 
-    val parsed = spark.read.option("nullValue", "?").option("inferSchema", "true").
-      csv(fileName)
+    val pricePaidSchemaJson = Source.fromFile(ppSchemaFileName).getLines.mkString
+    val pricePaidSchema = DataType.fromJson(pricePaidSchemaJson).asInstanceOf[StructType]
 
-    parsed.printSchema()
-
-    println(parsed.count())
-
-
-    import org.apache.spark.sql.types.{DataType, StructType}
-
-    val jsonSchema = parsed.schema.json
-    val newSchema = DataType.fromJson(jsonSchema).asInstanceOf[StructType]
-
-    println(jsonSchema)
-
-    val parsed2 = spark.read.option("nullValue", "?").option("inferSchema", "false").option("schema",jsonSchema).
-      csv(fileName)
+    val parsed2 = spark.read.option("nullValue", "?").option("inferSchema", "false").schema(pricePaidSchema).csv(fileName)
 
     parsed2.printSchema()
 
-    println(parsed2.count())
+    val head2 = parsed2.take(20)
+    head2.foreach(println)
+
   }
 }

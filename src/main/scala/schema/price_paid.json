@@ -1,0 +1,18 @@
+{"type":"struct",
+  "fields":[
+    {"name":"transaction_id","type":"string","nullable":true,"metadata":{}},
+    {"name":"sale_price","type":"integer","nullable":true,"metadata":{}},
+    {"name":"transfer_date","type":"string","nullable":true,"metadata":{}},
+    {"name":"post_code","type":"string","nullable":true,"metadata":{}},
+    {"name":"property_type","type":"string","nullable":true,"metadata":{}},
+    {"name":"age","type":"string","nullable":true,"metadata":{}},
+    {"name":"duration","type":"string","nullable":true,"metadata":{}},
+    {"name":"PAON","type":"string","nullable":true,"metadata":{}},
+    {"name":"SAON","type":"string","nullable":true,"metadata":{}},
+    {"name":"street","type":"string","nullable":true,"metadata":{}},
+    {"name":"locality","type":"string","nullable":true,"metadata":{}},
+    {"name":"town","type":"string","nullable":true,"metadata":{}},
+    {"name":"district","type":"string","nullable":true,"metadata":{}},
+    {"name":"county","type":"string","nullable":true,"metadata":{}},
+    {"name":"category_type","type":"string","nullable":true,"metadata":{}},
+    {"name":"record_status","type":"string","nullable":true,"metadata":{}}]}
