@@ -42,7 +42,7 @@ class LandRegistry extends FunSuite{
     * Note that where a transaction changes category type due to misallocation (as above) it will be deleted from the original category type and added to the correct category with a new transaction unique identifier.
     */
   test ("land registry etl") {
-    val spark = SparkSession.builder().master("local").appName("TokenTest").getOrCreate()
+    val spark = SparkSession.builder().master("local").appName("Land Registry Paid Price").getOrCreate()
 
     val fileName = "/Users/johnpoulin/IdeaProjects/DataThrasher/data/pp-monthly-update-new-version_9_18.csv"
     val ppSchemaFileName = "/Users/johnpoulin/IdeaProjects/DataThrasher/src/main/scala/schema/price_paid.json"
