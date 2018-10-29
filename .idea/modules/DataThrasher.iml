@@ -13,6 +13,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sbt: aopalliance:aopalliance:1.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.elasticsearch:elasticsearch-spark-20_2.11:6.4.2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.typelevel:machinist_2.11:0.6.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.elasticsearch.client:elasticsearch-rest-client:6.3.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.sksamuel.exts:exts_2.11:1.60.0:jar" level="project" />

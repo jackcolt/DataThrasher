@@ -1,9 +1,8 @@
 package test
 
-import com.sksamuel.elastic4s.RefreshPolicy
 import com.sksamuel.elastic4s.http.ElasticDsl._
-import com.sksamuel.elastic4s.http.{bulk => _, search => _, _}
 import com.sksamuel.elastic4s.http.search.SearchResponse
+import com.sksamuel.elastic4s.http.{bulk => _, search => _, _}
 import org.scalatest._
 
 
@@ -14,19 +13,15 @@ class ElasticTest extends FunSuite {
 
     val client = ElasticClient(ElasticProperties("http://localhost:9200"))
 
-    client.execute {
-      bulk(
-        indexInto("myindex" / "mytype").fields("country" -> "Mongolia", "capital" -> "Ulaanbaatar"),
-        indexInto("myindex" / "mytype").fields("country" -> "Namibia", "capital" -> "Windhoek")
-      ).refresh(RefreshPolicy.WaitFor)
-    }.await
+
+    //{ "index" : { "_index" : "test", "_type" : "_doc", "_id" : "1" } }
 
     val response: Response[SearchResponse] = client.execute {
-      search("myindex").matchQuery("capital", "ulaanbaatar")
+      search("transactions").matchQuery("Physician_First_Name", "j")
     }.await
 
     // prints out the original json
-    println(response.result.hits.hits.head.sourceAsString)
+    response.result.hits.hits.foreach(println)
 
     client.close()
   }
