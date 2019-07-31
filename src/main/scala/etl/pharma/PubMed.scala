@@ -28,11 +28,6 @@ class PubMed extends FunSuite {
 
   val directoryName = "data/pubmed/"
 
-
-  val outputFileName = directoryName + "pubmed_baseline.json.gz"
-
-  val outputFile = new GZIPOutputStream(new FileOutputStream(outputFileName))
-
   val directory = new File(directoryName)
 
   var counter = 1
@@ -43,45 +38,39 @@ class PubMed extends FunSuite {
     println("found " + total_files + " files....")
 
     for (file <- directory.listFiles if file.getName endsWith ".xml.gz") {
-      if (counter < 3) {
-        // process the file
-        println("Processing file " + counter + " of " + total_files + "(" + file.getName + ") -" + file.getFreeSpace)
-        counter = counter + 1
-        //get the xml file
-        //decompress the file
+      // process the file
+      println("Processing file " + counter + " of " + total_files + "(" + file.getName + ") -" + file.getFreeSpace)
+      counter = counter + 1
 
-        val inputFileName = directoryName + file.getName
+      val inputFileName = directoryName + file.getName
 
-        val in = new GZIPInputStream(new FileInputStream(inputFileName))
+      val in = new GZIPInputStream(new FileInputStream(inputFileName))
 
-        //val pm_xml = scala.xml.XML.loadFile(inputFileName)
+      val pm_xml = scala.xml.XML.load(in)
 
-        val pm_xml = scala.xml.XML.load(in)
-        val articles = pm_xml \ "PubmedArticle"
+      scala.xml.XML.
 
+      val articles = pm_xml \ "PubmedArticle"
 
-        for (article <- articles) {
-          try {
-            val json_article = org.json.XML.toJSONObject(article.toString())
+      val outputFileName = inputFileName.replaceAll(".xml.gz", ".json.gz")
 
-            outputFile.write(json_article.toString().getBytes)
-            outputFile.write("\n".getBytes)
+      val outputStream = new GZIPOutputStream(new FileOutputStream(outputFileName))
 
-            //FileUtils.writeStringToFile(outputFile, json_article.toString, true)
+      for (article <- articles) {
+        try {
+          val json_article = org.json.XML.toJSONObject(article.toString())
 
-            //FileUtils.writeStringToFile(outputFile, "\n", true)
-          }
-          catch {
-            case unknown: Throwable => println("Got this unknown exception: " + unknown)
-          }
-
+          outputStream.write(json_article.toString().getBytes)
+          outputStream.write("\n".getBytes)
         }
-        outputFile.flush()
+        catch {
+          case unknown: Throwable => println("Got this unknown exception: " + unknown)
+        }
 
       }
+      outputStream.flush()
+      outputStream.close()
     }
   }
-
-  outputFile.close()
 
 }
