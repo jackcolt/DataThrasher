@@ -1,93 +1,81 @@
 package etl.pharma
 
-import java.io.File
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
+import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 
 import org.apache.commons.io.FileUtils
-import org.apache.spark.SparkConf
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.{DataType, StructType}
-import org.elasticsearch.spark.sql.EsSparkSQL
 import org.scalatest.FunSuite
 
-import scala.io.Source
+import scala.util.Try
 
 
 class PubMed extends FunSuite {
 
+  def compress(input: Array[Byte]): Array[Byte] = {
+    val bos = new ByteArrayOutputStream(input.length)
+    val gzip = new GZIPOutputStream(bos)
+    gzip.write(input)
+    gzip.close()
+    val compressed = bos.toByteArray
+    bos.close()
+    compressed
+  }
+
+  def decompress(compressed: Array[Byte]): Option[String] =
+    Try {
+      val inputStream = new GZIPInputStream(new ByteArrayInputStream(compressed))
+      scala.io.Source.fromInputStream(inputStream).mkString
+    }.toOption
+
+  val directoryName = "data/pubmed/"
 
 
-  //ElasticClient(ElasticProperties("http://34.204.76.119:9200"))
+  val outputFileName=directoryName + "pubmed_baseline.json"
 
-  val conf = new SparkConf()
+  val outputFile = new File(outputFileName)
 
-  conf.set("es.nodes", "localhost")
-    .set("es.index.auto.create", "true")
-    .set("es.port", "9200")
-    .set("es.nodes.discovery", "false")
-    .set("es.nodes.wan.only", "true")
-    .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .set("spark.es.net.http.auth.user","")
-    .set("spark.es.net.http.auth.pass", "")
+  val directory = new File(directoryName)
 
+  FileUtils.writeStringToFile(outputFile, "", false)
 
-  val spark = SparkSession.builder().master("local").appName("Clinical Trials Data").config(conf).getOrCreate()
+  var  counter = 1
+  if (directory.exists && directory.isDirectory) {
 
+    val total_files = directory.listFiles.length/2
 
+    println("found "+total_files + " files....")
 
+    for (file <- directory.listFiles if file.getName endsWith ".xml.gz") {
+      // process the file
+      println("Processing file "+counter+" of " + total_files + "("+file.getName+") -"+file.getFreeSpace)
+      counter = counter +1
+      //get the xml file
+      //decompress the file
 
-  val outputFileName = "pubmed_all.json"
+      val inputFileName = directoryName + file.getName
 
-  val inputFileName = "/Users/johnpoulin/IdeaProjects/DataThrasher/data/pubmed19n1358.xml"
-
-
-
-  val pm_xml = scala.xml.XML.loadFile(inputFileName)
-
-
-  val articles = pm_xml \ "PubmedArticle"
-
-  //val json_obj = org.json.XML.toJSONObject(articles.toString())
+      //load the file and convert to xml
+      val pm_xml = scala.xml.XML.loadFile(inputFileName)
+      val articles = pm_xml \ "PubmedArticle"
 
 
+      for (article <- articles) {
+        try {
+          val json_article = org.json.XML.toJSONObject(article.toString())
 
-  //FileUtils.write(file, json_obj.toString)
+          FileUtils.writeStringToFile(outputFile, json_article.toString, true)
 
-  val schemaFileName="/Users/johnpoulin/IdeaProjects/DataThrasher/src/main/scala/schema/pubmed_schema.json"
+          FileUtils.writeStringToFile(outputFile, "\n", true)
+        }
+        catch {
+          case unknown: Throwable => println("Got this unknown exception: " + unknown)
+        }
 
-  val pubmedSchemaJson = Source.fromFile(schemaFileName).getLines.mkString
-  val pubmedSchema = DataType.fromJson(pubmedSchemaJson).asInstanceOf[StructType]
-
-  val file = new File(outputFileName)
-
-  val schemaFile = new File(schemaFileName)
-
-
-  for (article <- articles)
-    {
-      try {
-        val json_article = org.json.XML.toJSONObject(article.toString())
-
-        FileUtils.writeStringToFile(file, json_article.toString, true)
-
-        FileUtils.writeStringToFile(file, "\n", true)
-      }
-      catch
-      {
-        case unknown => println("Got this unknown exception: " + unknown)
       }
 
     }
 
-  val parsed = spark.read.schema(pubmedSchema).option("nullValue", "?").option("mode","DROPMALFORMED").json(outputFileName)
-
-  //FileUtils.writeStringToFile(schemaFile, parsed.schema.prettyJson, false)
-  EsSparkSQL.saveToEs(parsed, "pubmed_v13/docs")
-
-
-  //EsSparkSQL.saveToEs(parsed,"transactions2018_v14/docs", Map("es.nodes" -> "34.204.76.119",
-  //                                                                      "es.nodes.discovery"->"false",
-  //                                                                      "es.nodes.wan.only"->"true"))
-
+  }
 
 
 }

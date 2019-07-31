@@ -13,24 +13,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sbt: aopalliance:aopalliance:1.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.elasticsearch:elasticsearch-spark-20_2.11:6.4.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.elasticsearch:elasticsearch-spark-20_2.11:7.0.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.typelevel:machinist_2.11:0.6.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.elasticsearch.client:elasticsearch-rest-client:6.3.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.sksamuel.exts:exts_2.11:1.60.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.sksamuel.elastic4s:elastic4s-http_2.11:6.3.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.sksamuel.elastic4s:elastic4s-core_2.11:6.3.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.fasterxml.jackson.module:jackson-module-scala_2.11:2.9.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.fasterxml.jackson.module:jackson-module-paranamer:2.9.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-databind:2.9.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-core:2.9.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-annotations:2.9.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpclient:4.5.2:jar" level="project" />
     <orderEntry type="library" name="sbt: io.netty:netty:3.9.9.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpcore-nio:4.4.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpcore:4.4.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpasyncclient:4.1.2:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-logging:commons-logging:1.1.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe:config:1.3.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.clearspring.analytics:stream:2.7.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.esotericsoftware:kryo-shaded:3.0.3:jar" level="project" />
     <orderEntry type="library" name="sbt: com.esotericsoftware:minlog:1.3.0:jar" level="project" />
@@ -125,7 +111,6 @@
     <orderEntry type="library" name="sbt: com.twitter:chill_2.11:0.8.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.univocity:univocity-parsers:2.5.9:jar" level="project" />
     <orderEntry type="library" name="sbt: com.vlkan:flatbuffers:1.2.0-3f79e055:jar" level="project" />
-    <orderEntry type="library" name="sbt: commons-codec:commons-codec:1.11:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-collections:commons-collections:3.2.2:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-io:commons-io:2.4:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-lang:commons-lang:2.6:jar" level="project" />
@@ -139,7 +124,6 @@
     <orderEntry type="library" name="sbt: javax.xml.bind:jaxb-api:2.2.2:jar" level="project" />
     <orderEntry type="library" name="sbt: javax.xml.stream:stax-api:1.0-2:jar" level="project" />
     <orderEntry type="library" name="sbt: jline:jline:0.9.94:jar" level="project" />
-    <orderEntry type="library" name="sbt: joda-time:joda-time:2.9.9:jar" level="project" />
     <orderEntry type="library" name="sbt: net.iharder:base64:2.3.8:jar" level="project" />
     <orderEntry type="library" name="sbt: net.java.dev.jets3t:jets3t:0.9.4:jar" level="project" />
     <orderEntry type="library" name="sbt: net.razorvine:pyrolite:4.13:jar" level="project" />
@@ -204,12 +188,37 @@
     <orderEntry type="library" name="sbt: org.lz4:lz4-java:1.4.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scalanlp:breeze-macros_2.11:0.13.2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scalanlp:breeze_2.11:0.13.2:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.25:jar" level="project" />
     <orderEntry type="library" name="sbt: org.spire-math:spire-macros_2.11:0.13.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.spire-math:spire_2.11:0.13.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.typelevel:macro-compat_2.11:1.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.xerial.snappy:snappy-java:1.1.2.6:jar" level="project" />
     <orderEntry type="library" name="sbt: xerces:xercesImpl:2.9.1:jar" level="project" />
     <orderEntry type="library" name="sbt: xml-apis:xml-apis:1.3.04:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-annotations:2.9.9:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-core:2.9.9:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-databind:2.9.9:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.module:jackson-module-paranamer:2.9.9:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.module:jackson-module-scala_2.11:2.9.9:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sksamuel.elastic4s:elastic4s-client-esjava_2.11:7.0.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sksamuel.elastic4s:elastic4s-core_2.11:7.0.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sksamuel.elastic4s:elastic4s-http-streams_2.11:7.0.3:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: com.sksamuel.elastic4s:elastic4s-testkit_2.11:7.0.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sksamuel.exts:exts_2.11:1.61.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe:config:1.3.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-actor_2.11:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: joda-time:joda-time:2.10.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpasyncclient:4.1.4:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpclient:4.5.7:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpcore:4.4.11:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpcore-nio:4.4.11:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.elasticsearch.client:elasticsearch-rest-client:7.0.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.reactivestreams:reactive-streams:1.0.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-java8-compat_2.11:0.7.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-lang.modules:scala-xml_2.11:1.2.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scalactic:scalactic_2.11:3.0.8:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scalatest:scalatest_2.11:3.0.8:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.26:jar" level="project" />
+    <orderEntry type="library" name="sbt: commons-codec:commons-codec:1.13:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.json:json:20180813:jar" level="project" />
   </component>
 </module>
