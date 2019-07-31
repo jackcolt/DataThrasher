@@ -1,6 +1,6 @@
 {"type":"struct",
   "fields":[
-    {"name":"Physician_Profile_ID","type":"integer","nullable":true,"metadata":{}},
+    {"name":"Physician_Profile_ID","type":"integer","nullable":false,"metadata":{}},
     {"name":"Physician_Profile_First_Name","type":"string","nullable":true,"metadata":{}},
     {"name":"Physician_Profile_Middle_Name","type":"string","nullable":true,"metadata":{}},
     {"name":"Physician_Profile_Last_Name","type":"string","nullable":true,"metadata":{}},

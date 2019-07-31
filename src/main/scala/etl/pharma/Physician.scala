@@ -1,4 +1,4 @@
-package etl.open_payments
+package etl.pharma
 
 import org.apache.spark.sql.SparkSession
 
@@ -31,6 +31,7 @@ class Physician extends FunSuite {
   parsed2.groupBy("Physician_Profile_Zipcode").count.orderBy(desc("count")).show(100)
 
   parsed2.groupBy("Physician_Profile_State").count.orderBy(desc("count")).show(100)
+
 
   /*
 

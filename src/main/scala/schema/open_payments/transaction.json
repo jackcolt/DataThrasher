@@ -5,7 +5,7 @@
     {"name":"Teaching_Hospital_CCN","type":"integer","nullable":true,"metadata":{}},
     {"name":"Teaching_Hospital_ID","type":"integer","nullable":true,"metadata":{}},
     {"name":"Teaching_Hospital_Name","type":"string","nullable":true,"metadata":{}},
-    {"name":"Physician_Profile_ID","type":"integer","nullable":true,"metadata":{}},
+    {"name":"Physician_Profile_ID","type":"integer","nullable":false,"metadata":{}},
     {"name":"Physician_First_Name","type":"string","nullable":true,"metadata":{}},
     {"name":"Physician_Middle_Name","type":"string","nullable":true,"metadata":{}},
     {"name":"Physician_Last_Name","type":"string","nullable":true,"metadata":{}},
