@@ -1,9 +1,8 @@
 package etl.pharma
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
+import java.io._
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 
-import org.apache.commons.io.FileUtils
 import org.scalatest.FunSuite
 
 import scala.util.Try
@@ -30,52 +29,59 @@ class PubMed extends FunSuite {
   val directoryName = "data/pubmed/"
 
 
-  val outputFileName=directoryName + "pubmed_baseline.json"
+  val outputFileName = directoryName + "pubmed_baseline.json.gz"
 
-  val outputFile = new File(outputFileName)
+  val outputFile = new GZIPOutputStream(new FileOutputStream(outputFileName))
 
   val directory = new File(directoryName)
 
-  FileUtils.writeStringToFile(outputFile, "", false)
-
-  var  counter = 1
+  var counter = 1
   if (directory.exists && directory.isDirectory) {
 
-    val total_files = directory.listFiles.length/2
+    val total_files = directory.listFiles.length / 2
 
-    println("found "+total_files + " files....")
+    println("found " + total_files + " files....")
 
     for (file <- directory.listFiles if file.getName endsWith ".xml.gz") {
-      // process the file
-      println("Processing file "+counter+" of " + total_files + "("+file.getName+") -"+file.getFreeSpace)
-      counter = counter +1
-      //get the xml file
-      //decompress the file
+      if (counter < 3) {
+        // process the file
+        println("Processing file " + counter + " of " + total_files + "(" + file.getName + ") -" + file.getFreeSpace)
+        counter = counter + 1
+        //get the xml file
+        //decompress the file
 
-      val inputFileName = directoryName + file.getName
+        val inputFileName = directoryName + file.getName
 
-      //load the file and convert to xml
-      val pm_xml = scala.xml.XML.loadFile(inputFileName)
-      val articles = pm_xml \ "PubmedArticle"
+        val in = new GZIPInputStream(new FileInputStream(inputFileName))
+
+        //val pm_xml = scala.xml.XML.loadFile(inputFileName)
+
+        val pm_xml = scala.xml.XML.load(in)
+        val articles = pm_xml \ "PubmedArticle"
 
 
-      for (article <- articles) {
-        try {
-          val json_article = org.json.XML.toJSONObject(article.toString())
+        for (article <- articles) {
+          try {
+            val json_article = org.json.XML.toJSONObject(article.toString())
 
-          FileUtils.writeStringToFile(outputFile, json_article.toString, true)
+            outputFile.write(json_article.toString().getBytes)
+            outputFile.write("\n".getBytes)
 
-          FileUtils.writeStringToFile(outputFile, "\n", true)
+            //FileUtils.writeStringToFile(outputFile, json_article.toString, true)
+
+            //FileUtils.writeStringToFile(outputFile, "\n", true)
+          }
+          catch {
+            case unknown: Throwable => println("Got this unknown exception: " + unknown)
+          }
+
         }
-        catch {
-          case unknown: Throwable => println("Got this unknown exception: " + unknown)
-        }
+        outputFile.flush()
 
       }
-
     }
-
   }
 
+  outputFile.close()
 
 }
