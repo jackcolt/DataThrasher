@@ -1,5 +1,8 @@
 package etl.pharma
 
+import java.io.File
+
+import org.apache.commons.io.FileUtils
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 import org.elasticsearch.spark.sql.EsSparkSQL
@@ -15,7 +18,7 @@ class ClinicalTrial extends FunSuite {
 
   val conf = new SparkConf()
 
-  conf.set("es.nodes", "localhost")
+  conf.set("es.nodes", "helioinsights.com")
     .set("es.index.auto.create", "true")
     .set("es.port", "9200")
     .set("es.nodes.discovery", "false")
@@ -28,25 +31,31 @@ class ClinicalTrial extends FunSuite {
   val spark = SparkSession.builder().master("local").appName("Clinical Trials Data").config(conf).getOrCreate()
 
 
-  //val fileName = "/Users/johnpoulin/IdeaProjects/DataThrasher/data/clinical_trials/NCT04030052.xml"
+  val fileName = "data/NCT02423525.xml"
 
-  val fileName = "test3.json"
+  val outputFileName = "NCT02423525.json"
 
-  //val trial_xml = scala.xml.XML.loadFile(fileName)
+  val trial_xml = scala.xml.XML.loadFile(fileName)
 
-  //val trial_json = toJson(trial_xml)
+  val jsonConverted = trial_xml
+
+
+  val json_article = org.json.XML.toJSONObject(jsonConverted.toString())
+
+
 
   //println(trial_json)
 
-  //val file = new File( "test3.json")
+  val outputFile = new File( outputFileName)
 
   //val json_obj = org.json.XML.toJSONObject(trial_xml.toString())
 
   //System.out.println(json_obj.toString)
 
-  //FileUtils.write(file, json_obj.toString)
+  FileUtils.writeStringToFile(outputFile, json_article.toString,false)
+  FileUtils.writeStringToFile(outputFile, "\n",true)
 
-  val parsed = spark.read.option("nullValue", "?").option("inferSchema", "false").option("header", "true").json(fileName)
+  val parsed = spark.read.json(outputFileName)
 
   //val parsed = spark.read.option("nullValue", "?").option("inferSchema", "true").option("header", "true").csv(fileName)
 

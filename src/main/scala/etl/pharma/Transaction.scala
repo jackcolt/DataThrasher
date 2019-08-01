@@ -37,16 +37,14 @@ class Transaction extends FunSuite {
   val transactionSchema = DataType.fromJson(transactionchemaJson).asInstanceOf[StructType]
 
 
-  val parsed = spark.read.option("nullValue", "?").option("inferSchema", "false").option("header", "true").schema(transactionSchema).csv(fileName)
 
-  //val parsed = spark.read.option("nullValue", "?").option("inferSchema", "true").option("header", "true").csv(fileName)
+  val parsed = spark.read.option("nullValue", "?").option("inferSchema", "true").option("header", "true").csv(fileName)
 
 
   //EsSparkSQL.saveToEs(parsed,"transactions2018_v14/docs", Map("es.nodes" -> "34.204.76.119",
   //                                                                      "es.nodes.discovery"->"false",
   //                                                                      "es.nodes.wan.only"->"true"))
-  EsSparkSQL.saveToEs(parsed, "transactions2018_v16/docs")
-
+  EsSparkSQL.saveToEs(parsed, "pubmed_json_v1/docs")
 
 
 

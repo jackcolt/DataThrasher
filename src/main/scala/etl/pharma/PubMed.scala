@@ -48,9 +48,9 @@ class PubMed extends FunSuite {
 
       val pm_xml = scala.xml.XML.load(in)
 
-      scala.xml.XML.
+      val articles = pm_xml \ "PubmedArticle" \ "MedlineCitation" \ "Article"
 
-      val articles = pm_xml \ "PubmedArticle"
+      //val articles = pm_xml \ "Article"
 
       val outputFileName = inputFileName.replaceAll(".xml.gz", ".json.gz")
 
