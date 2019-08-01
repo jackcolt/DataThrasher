@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DataThrasher.iml" filepath="$PROJECT_DIR$/.idea/modules/DataThrasher.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/datathrasher-build.iml" filepath="$PROJECT_DIR$/.idea/modules/datathrasher-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/root-build.iml" filepath="$PROJECT_DIR$/.idea/modules/root-build.iml" />
     </modules>
   </component>
 </project>
