@@ -3,6 +3,8 @@ package etl.pharma
 import java.io._
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 import org.scalatest.FunSuite
 
 import scala.util.Try
@@ -50,7 +52,6 @@ class PubMed extends FunSuite {
 
       val articles = pm_xml \ "PubmedArticle" \ "MedlineCitation" \ "Article"
 
-      //val articles = pm_xml \ "Article"
 
       val outputFileName = inputFileName.replaceAll(".xml.gz", ".json.gz")
 
@@ -58,10 +59,45 @@ class PubMed extends FunSuite {
 
       for (article <- articles) {
         try {
+          //val elements = article \
           val json_article = org.json.XML.toJSONObject(article.toString())
+          // outputStream.write(json_article.toString().getBytes)
+          // outputStream.write("\n".getBytes)
 
-          outputStream.write(json_article.toString().getBytes)
-          outputStream.write("\n".getBytes)
+
+          implicit val formats = DefaultFormats
+          val parsed_article = parse(json_article.toString()).asInstanceOf[JObject]
+
+          //val authorListRaw = parsed_article \ "Article" \ "AuthorList" \ "Author"
+          val authorListRaw = parsed_article \ "Article" \ "AuthorList"
+          val title = parsed_article \ "Article" \ "ArticleTitle"
+          val journal_raw = parsed_article \ "Article" \ "Journal"
+          val journal = journal_raw.extract[Journal]
+          println("ISSN: " + journal.ISSN.content)
+          println("Journal Title: " + journal.Title)
+          print(" Title: ")
+          println(title.extract[String])
+          if (journal.ISSN.content == "1543-706X") {
+            println("here...")
+          }
+
+          try {
+            val authorList = authorListRaw.extract[AuthorList]
+            for (author <- authorList.Author) {
+                //val author = authorRaw.extract[Author]
+                println("   Last name: " + author.LastName)
+                println("   First name: " + author.ForeName)
+                println("   Affiliation: " + author.AffiliationInfo.Affiliation)
+            }
+          }
+          catch {
+            case unknown: Throwable => println("Got this unknown exception parsing authors: " + unknown)
+             print("   Last name:")
+              println((authorListRaw \ "Author" \ "LastName").extract[String])
+              print("   First name:")
+              println((authorListRaw \"Author" \ "ForeName").extract[String])
+          }
+
         }
         catch {
           case unknown: Throwable => println("Got this unknown exception: " + unknown)
