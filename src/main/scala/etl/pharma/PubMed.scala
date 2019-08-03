@@ -53,56 +53,99 @@ class PubMed extends FunSuite {
       val articles = pm_xml \ "PubmedArticle" \ "MedlineCitation" \ "Article"
 
 
-      val outputFileName = inputFileName.replaceAll(".xml.gz", ".json.gz")
+      val outputFileName = inputFileName.replaceAll(".xml.gz", ".csv.gz")
 
       val outputStream = new GZIPOutputStream(new FileOutputStream(outputFileName))
+
+      //6 columnms - ISSN, JournalTitle, ArticleTitle, AuthorLastName, AuthorFirstName, AuthorAffiliation
+      //write the header
+      outputStream.write("ISSN, JournalTitle, ArticleTitle, AuthorLastName, AuthorFirstName, AuthorAffiliation".getBytes)
+      outputStream.write("\n".getBytes)
 
       for (article <- articles) {
         try {
           //val elements = article \
           val json_article = org.json.XML.toJSONObject(article.toString())
-          // outputStream.write(json_article.toString().getBytes)
-          // outputStream.write("\n".getBytes)
-
 
           implicit val formats = DefaultFormats
           val parsed_article = parse(json_article.toString()).asInstanceOf[JObject]
 
-          //val authorListRaw = parsed_article \ "Article" \ "AuthorList" \ "Author"
           val authorListRaw = parsed_article \ "Article" \ "AuthorList"
           val title = parsed_article \ "Article" \ "ArticleTitle"
           val journal_raw = parsed_article \ "Article" \ "Journal"
           val journal = journal_raw.extract[Journal]
-          println("ISSN: " + journal.ISSN.content)
-          println("Journal Title: " + journal.Title)
-          print(" Title: ")
-          println(title.extract[String])
-          if (journal.ISSN.content == "1543-706X") {
-            println("here...")
-          }
+
+          val issn = journal.ISSN.content
+          val journalTitle = journal.Title
+          val articleTitle = title.extract[String]
+
+          var lastName=""
+          var firstName=""
+          var affiliation=""
 
           try {
             val authorList = authorListRaw.extract[AuthorList]
             for (author <- authorList.Author) {
-                //val author = authorRaw.extract[Author]
-                println("   Last name: " + author.LastName)
-                println("   First name: " + author.ForeName)
-                println("   Affiliation: " + author.AffiliationInfo.Affiliation)
+                lastName= author.LastName
+                firstName= author.ForeName
+                affiliation= author.AffiliationInfo.Affiliation
+
+              //6 columnms - ISSN, JournalTitle, ArticleTitle, AuthorLastName, AuthorFirstName, AuthorAffiliation
+              //write the content
+
+              //issn
+              outputStream.write(("\"" + issn + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //JournalTitle
+              outputStream.write(("\"" + journalTitle + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //ArticleTitle
+              outputStream.write(("\"" + articleTitle + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //AuthorLastName
+              outputStream.write(("\"" + lastName + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //AuthorFirstName
+              outputStream.write(("\"" + firstName + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //AuthorAffiliation
+              outputStream.write(("\"" + affiliation + "\"").getBytes)
+              //EOL
+              outputStream.write("\n".getBytes)
+
             }
           }
           catch {
-            case unknown: Throwable => 
+            case unknown: Throwable =>
               val author = (authorListRaw \ "Author").extract[Author]
-              println("   Last name: " + author.LastName)
-              println("   First name: " + author.ForeName)
-              println("   Affiliation: " + author.AffiliationInfo.Affiliation)
+              lastName= author.LastName
+              firstName= author.ForeName
+              affiliation= author.AffiliationInfo.Affiliation
+
+              //6 columnms - ISSN, JournalTitle, ArticleTitle, AuthorLastName, AuthorFirstName, AuthorAffiliation
+              //write the content
+
+              //issn
+              outputStream.write(("\"" + issn + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //JournalTitle
+              outputStream.write(("\"" + journalTitle + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //ArticleTitle
+              outputStream.write(("\"" + articleTitle + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //AuthorLastName
+              outputStream.write(("\"" + lastName + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //AuthorFirstName
+              outputStream.write(("\"" + firstName + "\"").getBytes)
+              outputStream.write(",".getBytes())
+              //AuthorAffiliation
+              outputStream.write(("\"" + affiliation + "\"").getBytes)
+              //EOL
+              outputStream.write("\n".getBytes)
+
           }
-            /*
-           print("   Last name:")
-            println((authorListRaw \ "Author" \ "LastName").extract[String])
-            print("   First name:")
-            println((authorListRaw \"Author" \ "ForeName").extract[String])
-        }*/
 
         }
         catch {
