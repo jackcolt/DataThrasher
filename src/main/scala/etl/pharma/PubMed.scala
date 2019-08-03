@@ -91,12 +91,18 @@ class PubMed extends FunSuite {
             }
           }
           catch {
-            case unknown: Throwable => println("Got this unknown exception parsing authors: " + unknown)
-             print("   Last name:")
-              println((authorListRaw \ "Author" \ "LastName").extract[String])
-              print("   First name:")
-              println((authorListRaw \"Author" \ "ForeName").extract[String])
+            case unknown: Throwable => 
+              val author = (authorListRaw \ "Author").extract[Author]
+              println("   Last name: " + author.LastName)
+              println("   First name: " + author.ForeName)
+              println("   Affiliation: " + author.AffiliationInfo.Affiliation)
           }
+            /*
+           print("   Last name:")
+            println((authorListRaw \ "Author" \ "LastName").extract[String])
+            print("   First name:")
+            println((authorListRaw \"Author" \ "ForeName").extract[String])
+        }*/
 
         }
         catch {
